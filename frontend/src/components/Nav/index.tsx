@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const Nav = () => {
     return (
         <>
-            <div className="d-flex justify-content-between align-items-center bg-dark px-3 py-2 mb-3 text-white">
+            <div className="d-flex justify-content-between align-items-center bg-dark px-3 py-2 text-white">
                 <Link to="/home">
                     <img
                         src="/LogoName.png"
