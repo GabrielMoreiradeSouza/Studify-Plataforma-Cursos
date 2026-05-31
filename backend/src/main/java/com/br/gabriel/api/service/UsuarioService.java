@@ -34,7 +34,7 @@ public class UsuarioService {
             usuario.setEmail(request.email().trim());
         }
 
-        if(requst.senha() != null){
+        if(request.senha() != null){
             usuario.setSenhaHash(passwordEncoder.encode(request.senhaHash()));
         }
 
