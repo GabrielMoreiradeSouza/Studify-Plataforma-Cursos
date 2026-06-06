@@ -14,7 +14,7 @@ export default function LoginPages() {
         e.preventDefault();
         setError("");
         try {
-            const response = await authService.login({ email, senha_hash });
+            const response = await authService.login({ email, senhaHash: senha_hash });
             login(response.token);
             navigate("/home");
         } catch (err: any) {

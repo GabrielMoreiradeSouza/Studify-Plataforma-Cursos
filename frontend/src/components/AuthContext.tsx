@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { authService } from '../services/auth.service';
 

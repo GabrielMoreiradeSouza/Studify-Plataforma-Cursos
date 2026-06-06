@@ -2,13 +2,13 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/auth
 
 export interface SignInRequest {
     email: string;
-    senha_hash: string;
+    senhaHash: string;
 }
 
 export interface RegisterRequest {
-    nome_completo: string;
+    nomeCompleto: string;
     email: string;
-    senha_hash: string;
+    senhaHash: string;
 }
 
 export interface SignInResponse {
@@ -33,7 +33,13 @@ export class AuthService {
             const response = await fetch(url, config);
 
             if (!response.ok) {
-                const errorMessage = await response.text().catch(() => response.statusText);
+                let errorMessage = response.statusText;
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
+                } catch {
+                    errorMessage = await response.text();
+                }
                 throw new Error(`Erro API (${response.status}): ${errorMessage}`);
             }
 

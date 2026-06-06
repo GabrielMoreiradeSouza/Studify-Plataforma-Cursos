@@ -15,7 +15,7 @@ export default function RegisterPages() {
         e.preventDefault();
         setError("");
         try {
-            const response = await authService.register({ nome_completo, email, senha_hash });
+            const response = await authService.register({ nomeCompleto: nome_completo, email, senhaHash: senha_hash });
             // Se o backend retornar o token ao registrar, já faz login
             if (response && response.token) {
                 login(response.token);

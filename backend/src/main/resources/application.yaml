@@ -16,6 +16,11 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
+server:
+  error:
+    include-stacktrace: never
+    include-message: always
+
 logging:
   level:
     liquibase: DEBUG

@@ -49,4 +49,11 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Assinatura> assinaturas;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.dataCadastro == null) {
+            this.dataCadastro = LocalDateTime.now();
+        }
+    }
 }
