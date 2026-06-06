@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: api
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/studify}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+logging:
+  level:
+    liquibase: DEBUG
+
+aws:
+  s3:
+    region: ${AWS_REGION:us-east-1}
+    bucket: avatar-studify
+    bucketaulas: aulas-studify
+    endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+    access-key: ${AWS_ACCESS_KEY_ID:test}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:test}
+
+app:
+  jwt:
+    secret: MateriaisApiJwtSecret_KeyMinimumLength32Bytes_Dev_UseEnvInProd
+    expiration-ms: 86400000

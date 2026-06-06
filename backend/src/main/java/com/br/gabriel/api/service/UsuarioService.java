@@ -1,9 +1,14 @@
 package com.br.gabriel.api.service;
 
+import com.br.gabriel.api.dto.request.UpdateUsuarioRequest;
+import com.br.gabriel.api.dto.response.SignInResponse;
 import com.br.gabriel.api.entity.Usuario;
+import com.br.gabriel.api.exception.ResourceNotFoundException;
 import com.br.gabriel.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +16,13 @@ import java.util.UUID;
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenService jwtTokenService;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, JwtTokenService jwtTokenService) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenService = jwtTokenService;
     }
 
 
@@ -34,18 +43,17 @@ public class UsuarioService {
             usuario.setEmail(request.email().trim());
         }
 
-        if(request.senha() != null){
+        if(request.senhaHash() != null){
             usuario.setSenhaHash(passwordEncoder.encode(request.senhaHash()));
         }
 
         usuario = usuarioRepository.save(usuario);
 
-        return new SigInResponse(
-                usuario.getIdUsuario(),
+        return new SignInResponse(
+                jwtTokenService.generateToken(usuario),
                 usuario.getNomeCompleto(),
                 usuario.getEmail(),
-
-                List.of()
+                usuario.getIdUsuario()
         );
     }
 }
