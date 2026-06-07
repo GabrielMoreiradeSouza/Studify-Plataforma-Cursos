@@ -15,15 +15,8 @@ export default function RegisterPages() {
         e.preventDefault();
         setError("");
         try {
-            const response = await authService.register({ nomeCompleto: nome_completo, email, senhaHash: senha_hash });
-            // Se o backend retornar o token ao registrar, já faz login
-            if (response && response.token) {
-                login(response.token);
-                navigate("/home");
-            } else {
-                // Caso contrário redireciona pro login
-                navigate("/login");
-            }
+            await authService.register({ nomeCompleto: nome_completo, email, senhaHash: senha_hash });
+            navigate("/login");
         } catch (err: any) {
             setError(err.message || "Erro ao registrar usuário");
         }

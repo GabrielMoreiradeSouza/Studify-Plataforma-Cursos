@@ -13,6 +13,9 @@ export interface RegisterRequest {
 
 export interface SignInResponse {
     token: string;
+    nomeCompleto: string;
+    email: string;
+    idUsuario: string;
 }
 
 export class AuthService {

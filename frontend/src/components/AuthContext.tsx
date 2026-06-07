@@ -4,7 +4,8 @@ import { authService } from '../services/auth.service';
 
 interface AuthContextType {
     isAuthenticated: boolean;
-    login: (token: string) => void;
+    nomeCompleto: string | null;
+    login: (token: string, nomeCompleto?: string) => void;
     logout: () => void;
 }
 
@@ -12,19 +13,26 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
+    const [nomeCompleto, setNomeCompleto] = useState<string | null>(localStorage.getItem('nomeCompleto'));
 
-    const login = (token: string) => {
+    const login = (token: string, nomeCompleto?: string) => {
         localStorage.setItem('token', token);
+        if (nomeCompleto) {
+            localStorage.setItem('nomeCompleto', nomeCompleto);
+            setNomeCompleto(nomeCompleto);
+        }
         setIsAuthenticated(true);
     };
 
     const logout = () => {
         authService.logout();
+        localStorage.removeItem('nomeCompleto');
+        setNomeCompleto(null);
         setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, nomeCompleto, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
