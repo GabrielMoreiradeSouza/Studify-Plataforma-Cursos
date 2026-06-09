@@ -47,4 +47,7 @@ public class Curso {
 
     @Column(name = "total_horas")
     private Integer totalHoras;
+
+    @Column(name = "imagem_key")
+    private String imagemKey;
 }

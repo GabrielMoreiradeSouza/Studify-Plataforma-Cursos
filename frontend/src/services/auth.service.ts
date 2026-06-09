@@ -16,6 +16,7 @@ export interface SignInResponse {
     nomeCompleto: string;
     email: string;
     idUsuario: string;
+    role: string;
 }
 
 export class AuthService {

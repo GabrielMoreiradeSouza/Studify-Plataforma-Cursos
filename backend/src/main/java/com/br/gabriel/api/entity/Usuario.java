@@ -32,6 +32,10 @@ public class Usuario {
     @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UsuarioRole role = UsuarioRole.USER;
+
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dataCadastro;
 

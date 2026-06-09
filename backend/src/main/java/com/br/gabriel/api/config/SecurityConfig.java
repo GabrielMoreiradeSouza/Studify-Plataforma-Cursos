@@ -81,12 +81,18 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/images/**")
                                         .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/courses/*/lessons/*/video")
+                                        .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/courses/*/image")
+                                        .permitAll()
                                         .requestMatchers(
                                                 "/swagger-ui/**",
                                                 "/swagger-ui.html",
                                                 "/v3/api-docs",
                                                 "/v3/api-docs/**")
                                         .permitAll()
+                                        .requestMatchers("/admin/**")
+                                        .hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated())
                 .exceptionHandling(

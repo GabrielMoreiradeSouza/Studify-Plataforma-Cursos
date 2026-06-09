@@ -12,6 +12,11 @@ spring:
     hibernate:
       ddl-auto: none
 
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -30,7 +35,8 @@ aws:
     region: ${AWS_REGION:us-east-1}
     bucket: avatar-studify
     bucketaulas: aulas-studify
-    endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+    bucket-lessons: ${AWS_BUCKET_LESSONS:aulas-studify}
+    endpoint: ${AWS_ENDPOINT:http://localstack:4566}
     access-key: ${AWS_ACCESS_KEY_ID:test}
     secret-key: ${AWS_SECRET_ACCESS_KEY:test}
 

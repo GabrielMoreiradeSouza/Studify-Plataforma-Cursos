@@ -3,7 +3,7 @@ import { useAuth } from "../AuthContext";
 import { useState } from "react";
 
 export const Nav = () => {
-    const { isAuthenticated, nomeCompleto, logout } = useAuth();
+    const { isAuthenticated, nomeCompleto, role, logout } = useAuth();
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -26,7 +26,7 @@ export const Nav = () => {
                 </Link>
                 <ul className="nav ms-auto align-items-center">
                     <li className="nav-item">
-                        <Link className="nav-link text-white" to="/">Cursos</Link>
+                        <Link className="nav-link text-white" to="/cursos">Cursos</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="/planos">Inscreva-se</Link>
@@ -34,8 +34,13 @@ export const Nav = () => {
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="/sobre">Contato</Link>
                     </li>
+                    {isAuthenticated && role === "ADMIN" && (
+                        <li className="nav-item">
+                            <Link className="nav-link text-white" to="/admin">Admin</Link>
+                        </li>
+                    )}
                     {isAuthenticated && (
-                        <li className="nav-item ms-3 position-relative">
+                        <li className="nav-item ms-2 position-relative">
                             <div 
                                 className="px-3 py-1 bg-secondary text-white" 
                                 style={{ borderRadius: '4px', cursor: 'pointer' }}

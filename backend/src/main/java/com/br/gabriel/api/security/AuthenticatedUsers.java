@@ -4,6 +4,8 @@ import com.br.gabriel.api.entity.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -21,7 +23,8 @@ public class AuthenticatedUsers implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        String roleName = usuario.getRole() != null ? usuario.getRole().name() : "USER";
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
 
     @Override

@@ -1,3 +1,12 @@
+x-common-env: &common-env
+  SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/studify
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: postgres
+  AWS_ENDPOINT: http://localstack:4566
+  AWS_ACCESS_KEY_ID: test
+  AWS_SECRET_ACCESS_KEY: test
+  AWS_REGION: us-east-1
+
 services:
   db:
     image: postgres:16-alpine
@@ -15,16 +24,32 @@ services:
       timeout: 5s
       retries: 5
 
+  localstack:
+    image: localstack/localstack:4.4.0
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      LOCALSTACK_PERSISTENCE: 1
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - ./scripts:/etc/localstack/init/ready.d
+    healthcheck:
+      test: ["CMD-SHELL", "awslocal s3 ls"]
+      interval: 5s
+      timeout: 10s
+      retries: 15
+
   backend:
     build: ./backend
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/studify
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      <<: *common-env
     depends_on:
       db:
+        condition: service_healthy
+      localstack:
         condition: service_healthy
 
   frontend:
@@ -41,3 +66,4 @@ services:
 
 volumes:
   pgdata:
+  localstack-data:

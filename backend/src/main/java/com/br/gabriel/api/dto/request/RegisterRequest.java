@@ -1,8 +1,14 @@
 package com.br.gabriel.api.dto.request;
 
+import com.br.gabriel.api.entity.UsuarioRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record RegisterRequest(@NotBlank String nomeCompleto, @Email @NotBlank String email, @NotBlank @Size(min = 6, max = 255) String senhaHash) {
+public record RegisterRequest(
+        @NotBlank String nomeCompleto,
+        @Email @NotBlank String email,
+        @NotBlank @Size(min = 6, max = 255) String senhaHash,
+        UsuarioRole role
+) {
 }

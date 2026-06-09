@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609004-create-table-progresso
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: progresso
+            columns:
+              - column:
+                  name: id_progresso
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_usuario
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_lesson
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: completado
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_conclusao
+                  type: TIMESTAMP
+        - addForeignKeyConstraint:
+            baseTableName: progresso
+            baseColumnNames: id_usuario
+            referencedTableName: usuarios
+            referencedColumnNames: id_usuario
+            constraintName: fk_progresso_usuario
+        - addForeignKeyConstraint:
+            baseTableName: progresso
+            baseColumnNames: id_lesson
+            referencedTableName: lessons
+            referencedColumnNames: id_lesson
+            constraintName: fk_progresso_lesson
+        - addUniqueConstraint:
+            tableName: progresso
+            columnNames: id_usuario, id_lesson
+            constraintName: uk_progresso_usuario_lesson

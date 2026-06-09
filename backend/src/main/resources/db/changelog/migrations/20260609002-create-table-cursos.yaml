@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609002-create-table-cursos
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: cursos
+            columns:
+              - column:
+                  name: id_curso
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: titulo
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: descricao
+                  type: text
+              - column:
+                  name: id_instrutor
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_categoria
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nivel
+                  type: varchar(50)
+              - column:
+                  name: data_publicacao
+                  type: date
+              - column:
+                  name: total_aulas
+                  type: integer
+              - column:
+                  name: total_horas
+                  type: integer
+        - addForeignKeyConstraint:
+            baseTableName: cursos
+            baseColumnNames: id_instrutor
+            referencedTableName: usuarios
+            referencedColumnNames: id_usuario
+            constraintName: fk_cursos_instrutor
+        - addForeignKeyConstraint:
+            baseTableName: cursos
+            baseColumnNames: id_categoria
+            referencedTableName: categorias
+            referencedColumnNames: id_categoria
+            constraintName: fk_cursos_categoria

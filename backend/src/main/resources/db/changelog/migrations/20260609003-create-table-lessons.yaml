@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609003-create-table-lessons
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: lessons
+            columns:
+              - column:
+                  name: id_lesson
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_curso
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: titulo
+                  type: varchar(255)
+              - column:
+                  name: s3_key
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duracao_segundos
+                  type: integer
+              - column:
+                  name: ordem
+                  type: integer
+              - column:
+                  name: data_upload
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: lessons
+            baseColumnNames: id_curso
+            referencedTableName: cursos
+            referencedColumnNames: id_curso
+            constraintName: fk_lessons_curso

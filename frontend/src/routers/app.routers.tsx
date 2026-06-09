@@ -1,5 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { HomePages } from "../pages/HomePages"
+import { CursosPages } from "../pages/CursosPages"
+import { Player } from "../pages/CursosPages/Player"
+import { AdminPages } from "../pages/AdminPages"
+import { CriarCurso } from "../pages/AdminPages/CriarCurso"
+import { MeusCursos } from "../pages/AdminPages/MeusCursos"
 import LoginPages from "../pages/LoginPages"
 import RegisterPages from "../pages/RegisterPages"
 import { ProtectedRoute } from "../components/AuthContext"
@@ -15,6 +20,13 @@ export const AppRouter = () => {
             
             <Route element={<ProtectedRoute />}>
               <Route path="/home" element={<HomePages />} />
+              <Route path="/cursos" element={<CursosPages />} />
+              <Route path="/cursos/:courseId" element={<Player />} />
+              <Route path="/admin" element={<AdminPages />}>
+                <Route index element={<Navigate to="cursos" replace />} />
+                <Route path="cursos" element={<MeusCursos />} />
+                <Route path="criar-curso" element={<CriarCurso />} />
+              </Route>
             </Route>
         </Routes>
     </>

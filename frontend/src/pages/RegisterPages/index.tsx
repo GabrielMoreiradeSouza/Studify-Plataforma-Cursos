@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../components/AuthContext";
 import { authService } from "../../services/auth.service";
 
 export default function RegisterPages() {
@@ -9,7 +8,6 @@ export default function RegisterPages() {
     const [senha_hash, setSenha_hash] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    const { login } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

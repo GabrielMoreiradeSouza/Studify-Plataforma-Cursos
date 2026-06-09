@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609005-add-imagem-key-to-cursos
+      author: gabriel
+      changes:
+        - addColumn:
+            tableName: cursos
+            columns:
+              - column:
+                  name: imagem_key
+                  type: VARCHAR(500)

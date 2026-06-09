@@ -26,6 +26,7 @@ public class JwtTokenService  {
 
         return Jwts.builder()
                 .subject(usuario.getEmail())
+                .claim("role", usuario.getRole().name())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiration))
                 .signWith(key)

@@ -53,7 +53,8 @@ public class UsuarioService {
                 jwtTokenService.generateToken(usuario),
                 usuario.getNomeCompleto(),
                 usuario.getEmail(),
-                usuario.getIdUsuario()
+                usuario.getIdUsuario(),
+                usuario.getRole()
         );
     }
 }

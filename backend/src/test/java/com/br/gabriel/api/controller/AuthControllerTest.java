@@ -2,6 +2,7 @@ package com.br.gabriel.api.controller;
 
 import com.br.gabriel.api.dto.request.RegisterRequest;
 import com.br.gabriel.api.dto.response.SignInResponse;
+import com.br.gabriel.api.entity.UsuarioRole;
 import com.br.gabriel.api.service.AuthService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +29,8 @@ public class AuthControllerTest {
 
     @Test
     public void deveRegistrarUsuarioComSucesso() {
-        RegisterRequest request = new RegisterRequest("Teste Usuario", "teste@email.com", "senha123");
-        SignInResponse responseMock = new SignInResponse("token_valido", "Teste Usuario", "teste@email.com", UUID.randomUUID());
+        RegisterRequest request = new RegisterRequest("Teste Usuario", "teste@email.com", "senha123", UsuarioRole.USER);
+        SignInResponse responseMock = new SignInResponse("token_valido", "Teste Usuario", "teste@email.com", UUID.randomUUID(), UsuarioRole.USER);
 
         when(authService.register(any(RegisterRequest.class))).thenReturn(responseMock);
 

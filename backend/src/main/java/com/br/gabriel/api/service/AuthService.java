@@ -4,6 +4,7 @@ import com.br.gabriel.api.dto.request.RegisterRequest;
 import com.br.gabriel.api.dto.request.SignInRequest;
 import com.br.gabriel.api.dto.response.SignInResponse;
 import com.br.gabriel.api.entity.Usuario;
+import com.br.gabriel.api.entity.UsuarioRole;
 import com.br.gabriel.api.exception.DuplicateUserDataException;
 import com.br.gabriel.api.exception.IncorrectPasswordException;
 import com.br.gabriel.api.exception.UserNotFoundException;
@@ -56,7 +57,7 @@ public class AuthService {
         usuario.setNomeCompleto(request.nomeCompleto());
         usuario.setEmail(email);
         usuario.setSenhaHash(passwordEncoder.encode(request.senhaHash()));
-
+        usuario.setRole(request.role() != null ? request.role() : UsuarioRole.USER);
 
         usuario = usuarioRepository.save(usuario);
         return buildToken(usuario);
@@ -67,7 +68,8 @@ public class AuthService {
                 jwtTokenService.generateToken(usuario),
                 usuario.getNomeCompleto(),
                 usuario.getEmail(),
-                usuario.getIdUsuario()
+                usuario.getIdUsuario(),
+                usuario.getRole()
         );
     }
 }

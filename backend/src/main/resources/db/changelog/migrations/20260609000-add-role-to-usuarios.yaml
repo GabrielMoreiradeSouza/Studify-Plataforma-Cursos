@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609000-add-role-to-usuarios
+      author: gabriel
+      changes:
+        - addColumn:
+            tableName: usuarios
+            columns:
+              - column:
+                  name: role
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                  defaultValue: USER

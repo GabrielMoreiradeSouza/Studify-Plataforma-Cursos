@@ -2,3 +2,21 @@ databaseChangeLog:
   - include:
       file: migrations/20260606000-create-table-usuarios.yaml
       relativeToChangelogFile: true
+  - include:
+      file: migrations/20260609000-add-role-to-usuarios.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/20260609001-create-table-categorias.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/20260609002-create-table-cursos.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/20260609003-create-table-lessons.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/20260609004-create-table-progresso.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/20260609005-add-imagem-key-to-cursos.yaml
+      relativeToChangelogFile: true

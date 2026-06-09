@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609001-create-table-categorias
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: categorias
+            columns:
+              - column:
+                  name: id_categoria
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: descricao
+                  type: varchar(255)
