@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260609006-create-table-trilhas
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: trilhas
+            columns:
+              - column:
+                  name: id_trilha
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: titulo
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: descricao
+                  type: text
+              - column:
+                  name: data_criacao
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: imagem_key
+                  type: varchar(500)
+              - column:
+                  name: total_cursos
+                  type: integer
+              - column:
+                  name: id_categoria
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: trilhas
+            baseColumnNames: id_categoria
+            referencedTableName: categorias
+            referencedColumnNames: id_categoria
+            constraintName: fk_trilhas_categoria
+        - createTable:
+            tableName: trilhas_cursos
+            columns:
+              - column:
+                  name: id_trilha
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: id_curso
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: ordem
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: trilhas_cursos
+            baseColumnNames: id_trilha
+            referencedTableName: trilhas
+            referencedColumnNames: id_trilha
+            constraintName: fk_tc_trilha
+        - addForeignKeyConstraint:
+            baseTableName: trilhas_cursos
+            baseColumnNames: id_curso
+            referencedTableName: cursos
+            referencedColumnNames: id_curso
+            constraintName: fk_tc_curso

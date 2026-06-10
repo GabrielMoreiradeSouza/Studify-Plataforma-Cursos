@@ -36,6 +36,17 @@ export const AdminPages = () => {
                     >
                         Criar Novo Curso
                     </NavLink>
+                    <NavLink
+                        to="/admin/trilhas"
+                        className="text-decoration-none px-3 py-2 rounded"
+                        style={({ isActive }) => ({
+                            color: isActive ? "#fff" : "#9a9a9a",
+                            backgroundColor: isActive ? "#295bf1" : "transparent",
+                            fontWeight: isActive ? 600 : 400,
+                        })}
+                    >
+                        Trilhas
+                    </NavLink>
                 </nav>
             </div>
             <div className="flex-grow-1 p-4" style={{ overflow: "auto" }}>

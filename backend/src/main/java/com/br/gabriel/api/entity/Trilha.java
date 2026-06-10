@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -27,7 +28,26 @@ public class Trilha {
     @Column(name = "descricao")
     private String descricao;
 
+    @Column(name = "data_criacao", nullable = false)
+    private LocalDate dataCriacao;
+
+    @Column(name = "imagem_key")
+    private String imagemKey;
+
+    @Column(name = "total_cursos")
+    private Integer totalCursos;
+
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
     private Categoria categoria;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.dataCriacao == null) {
+            this.dataCriacao = LocalDate.now();
+        }
+        if (this.totalCursos == null) {
+            this.totalCursos = 0;
+        }
+    }
 }

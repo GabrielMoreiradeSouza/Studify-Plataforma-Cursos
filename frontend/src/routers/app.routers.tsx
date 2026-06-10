@@ -5,6 +5,7 @@ import { Player } from "../pages/CursosPages/Player"
 import { AdminPages } from "../pages/AdminPages"
 import { CriarCurso } from "../pages/AdminPages/CriarCurso"
 import { MeusCursos } from "../pages/AdminPages/MeusCursos"
+import { Trilhas } from "../pages/AdminPages/Trilhas"
 import LoginPages from "../pages/LoginPages"
 import RegisterPages from "../pages/RegisterPages"
 import { ProtectedRoute } from "../components/AuthContext"
@@ -26,6 +27,7 @@ export const AppRouter = () => {
                 <Route index element={<Navigate to="cursos" replace />} />
                 <Route path="cursos" element={<MeusCursos />} />
                 <Route path="criar-curso" element={<CriarCurso />} />
+                <Route path="trilhas" element={<Trilhas />} />
               </Route>
             </Route>
         </Routes>

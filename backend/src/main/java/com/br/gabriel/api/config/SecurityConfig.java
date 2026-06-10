@@ -85,6 +85,8 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/courses/*/image")
                                         .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/trilhas/*/image")
+                                        .permitAll()
                                         .requestMatchers(
                                                 "/swagger-ui/**",
                                                 "/swagger-ui.html",

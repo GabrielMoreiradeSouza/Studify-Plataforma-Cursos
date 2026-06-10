@@ -16,6 +16,18 @@ export interface CursoResponse {
     imagemKey: string | null;
 }
 
+export interface TrilhaResponse {
+    idTrilha: string;
+    titulo: string;
+    descricao: string;
+    dataCriacao: string;
+    totalCursos: number;
+    imagemKey: string | null;
+    idCategoria: string;
+    nomeCategoria: string;
+    cursos: CursoResponse[];
+}
+
 export interface LessonResponse {
     idLesson: string;
     idCurso: string;
@@ -102,6 +114,18 @@ class CursosService {
 
     getCourseImageUrl(courseId: string): string {
         return `${API_BASE_URL}/courses/${courseId}/image`;
+    }
+
+    async listTrilhas(): Promise<TrilhaResponse[]> {
+        return this.request<TrilhaResponse[]>('/trilhas');
+    }
+
+    async getTrilha(trilhaId: string): Promise<TrilhaResponse> {
+        return this.request<TrilhaResponse>(`/trilhas/${trilhaId}`);
+    }
+
+    getTrilhaImageUrl(trilhaId: string): string {
+        return `${API_BASE_URL}/trilhas/${trilhaId}/image`;
     }
 }
 

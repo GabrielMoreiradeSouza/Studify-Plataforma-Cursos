@@ -39,6 +39,29 @@ export interface LessonResponse {
     dataUpload: string;
 }
 
+export interface TrilhaResponse {
+    idTrilha: string;
+    titulo: string;
+    descricao: string;
+    dataCriacao: string;
+    totalCursos: number;
+    imagemKey: string | null;
+    idCategoria: string;
+    nomeCategoria: string;
+    cursos: CursoResponse[];
+}
+
+export interface CreateTrilhaRequest {
+    titulo: string;
+    descricao: string;
+    categoriaId: string;
+}
+
+export interface AddCursoToTrilhaRequest {
+    cursoId: string;
+    ordem?: number;
+}
+
 class AdminService {
 
     private getToken(): string | null {
@@ -121,6 +144,81 @@ class AdminService {
         formData.append('file', file);
 
         const url = `${API_BASE_URL}/courses/${courseId}/image`;
+        const token = this.getToken();
+
+        const headers: Record<string, string> = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const config: RequestInit = {
+            method: 'POST',
+            headers,
+            body: formData,
+        };
+
+        try {
+            const response = await fetch(url, config);
+
+            if (!response.ok) {
+                let errorMessage = response.statusText;
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
+                } catch {
+                    errorMessage = await response.text();
+                }
+                throw new Error(`Erro API (${response.status}): ${errorMessage}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`Erro no upload para ${url}:`, error);
+            throw error;
+        }
+    }
+
+    async listTrilhas(): Promise<TrilhaResponse[]> {
+        return this.request<TrilhaResponse[]>('/trilhas');
+    }
+
+    async getTrilha(trilhaId: string): Promise<TrilhaResponse> {
+        return this.request<TrilhaResponse>(`/trilhas/${trilhaId}`);
+    }
+
+    async createTrilha(data: CreateTrilhaRequest): Promise<TrilhaResponse> {
+        return this.request<TrilhaResponse>('/trilhas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+    }
+
+    async deleteTrilha(trilhaId: string): Promise<void> {
+        return this.request<void>(`/trilhas/${trilhaId}`, { method: 'DELETE' });
+    }
+
+    async addCursoToTrilha(trilhaId: string, data: AddCursoToTrilhaRequest): Promise<TrilhaResponse> {
+        return this.request<TrilhaResponse>(`/trilhas/${trilhaId}/cursos`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+    }
+
+    async removeCursoFromTrilha(trilhaId: string, cursoId: string): Promise<TrilhaResponse> {
+        return this.request<TrilhaResponse>(`/trilhas/${trilhaId}/cursos/${cursoId}`, { method: 'DELETE' });
+    }
+
+    getTrilhaImageUrl(trilhaId: string): string {
+        return `${API_BASE_URL}/trilhas/${trilhaId}/image`;
+    }
+
+    async uploadTrilhaImage(trilhaId: string, file: File): Promise<TrilhaResponse> {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const url = `${API_BASE_URL}/trilhas/${trilhaId}/image`;
         const token = this.getToken();
 
         const headers: Record<string, string> = {};
