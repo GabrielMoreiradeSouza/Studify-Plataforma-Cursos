@@ -42,7 +42,7 @@ export const CriarCurso = () => {
     };
 
     return (
-        <div style={{ maxWidth: "680px" }}>
+        <div style={{ maxWidth: "680px", margin: "0 auto" }}>
             <h4 className="text-white mb-1" style={{ fontWeight: 600 }}>Criar Novo Curso</h4>
             <p className="text-muted mb-4" style={{ color: "#9a9a9a !important" }}>Preencha os dados para criar um novo curso</p>
 

@@ -9,6 +9,8 @@ import { Trilhas } from "../pages/AdminPages/Trilhas"
 import LoginPages from "../pages/LoginPages"
 import RegisterPages from "../pages/RegisterPages"
 import { ProtectedRoute } from "../components/AuthContext"
+import { InscrevasePages } from "../pages/InscrevasePages"
+import { CheckoutPages } from "../pages/CheckoutPages"
 
 
 export const AppRouter = () => {
@@ -22,6 +24,8 @@ export const AppRouter = () => {
             <Route element={<ProtectedRoute />}>
               <Route path="/home" element={<HomePages />} />
               <Route path="/cursos" element={<CursosPages />} />
+              <Route path="/inscrever" element={<InscrevasePages />} />
+              <Route path="/checkout/:planoId" element={<CheckoutPages />} />
               <Route path="/cursos/:courseId" element={<Player />} />
               <Route path="/admin" element={<AdminPages />}>
                 <Route index element={<Navigate to="cursos" replace />} />

@@ -23,3 +23,6 @@ databaseChangeLog:
   - include:
       file: migrations/20260609006-create-table-trilhas.yaml
       relativeToChangelogFile: true
+  - include:
+      file: migrations/20260610000-add-plano-assinatura-pagamento-tables.yaml
+      relativeToChangelogFile: true

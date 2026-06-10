@@ -1,0 +1,134 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260610000-create-table-planos
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: planos
+            columns:
+              - column:
+                  name: id_plano
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: descricao
+                  type: varchar(255)
+              - column:
+                  name: preco
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duracao_meses
+                  type: integer
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 20260610001-create-table-assinaturas
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: assinaturas
+            columns:
+              - column:
+                  name: id_assinatura
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_usuario
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_plano
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_inicio
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_fim
+                  type: date
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: assinaturas
+            baseColumnNames: id_usuario
+            referencedTableName: usuarios
+            referencedColumnNames: id_usuario
+        - addForeignKeyConstraint:
+            baseTableName: assinaturas
+            baseColumnNames: id_plano
+            referencedTableName: planos
+            referencedColumnNames: id_plano
+
+  - changeSet:
+      id: 20260610002-create-table-pagamentos
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: pagamentos
+            columns:
+              - column:
+                  name: id_pagamento
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_assinatura
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: valor_pago
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_pagamento
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: metodo_pagamento
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_transacao_gateway
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: pagamentos
+            baseColumnNames: id_assinatura
+            referencedTableName: assinaturas
+            referencedColumnNames: id_assinatura
+
+  - changeSet:
+      id: 20260610003-add-saldo-to-usuarios
+      author: gabriel
+      changes:
+        - addColumn:
+            tableName: usuarios
+            columns:
+              - column:
+                  name: saldo
+                  type: decimal(10,2)
+                  defaultValueNumeric: 500
+                  constraints:
+                    nullable: false

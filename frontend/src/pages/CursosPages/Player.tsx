@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { cursosService } from "../../services/cursos.service";
 import type { CursoResponse, LessonResponse, ProgressoResponse } from "../../services/cursos.service";
+import { carteiraService } from "../../services/carteira.service";
+import { AcessoNegadoModal } from "../../components/AcessoNegadoModal";
 
 export const Player = () => {
     const { courseId } = useParams<{ courseId: string }>();
@@ -13,6 +15,7 @@ export const Player = () => {
     const [progresso, setProgresso] = useState<ProgressoResponse[]>([]);
     const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (!courseId) return;
@@ -20,8 +23,14 @@ export const Player = () => {
             cursosService.listAll(),
             cursosService.listLessons(courseId),
             cursosService.getProgresso(courseId),
+            carteiraService.possuiAssinaturaAtiva(),
         ])
-            .then(([all, less, prog]) => {
+            .then(([all, less, prog, ativa]) => {
+                if (!ativa) {
+                    setShowModal(true);
+                    setLoading(false);
+                    return;
+                }
                 const found = all.find((c) => c.idCurso === courseId) || null;
                 setCurso(found);
                 setLessons(less);
@@ -32,7 +41,7 @@ export const Player = () => {
             })
             .catch(() => {})
             .finally(() => setLoading(false));
-    }, [courseId]);
+    }, [courseId, navigate]);
 
     const progressoMap = new Map(progresso.map((p) => [p.idLesson, p]));
 
@@ -220,6 +229,10 @@ export const Player = () => {
                     </div>
                 </div>
             </div>
+            <AcessoNegadoModal
+                show={showModal}
+                onClose={() => { setShowModal(false); navigate("/cursos"); }}
+            />
         </div>
     );
 };

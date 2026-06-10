@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 @Service
 public class AuthService {
@@ -58,6 +60,7 @@ public class AuthService {
         usuario.setEmail(email);
         usuario.setSenhaHash(passwordEncoder.encode(request.senhaHash()));
         usuario.setRole(request.role() != null ? request.role() : UsuarioRole.USER);
+        usuario.setSaldo(BigDecimal.valueOf(500));
 
         usuario = usuarioRepository.save(usuario);
         return buildToken(usuario);

@@ -29,5 +29,10 @@ public class DataSeeder implements CommandLineRunner {
         } catch (Exception e) {
             log.error("Failed to seed categorias: {}", e.getMessage(), e);
         }
+        try {
+            seedService.seedPlanos();
+        } catch (Exception e) {
+            log.error("Failed to seed planos: {}", e.getMessage(), e);
+        }
     }
 }

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { cursosService } from "../../services/cursos.service";
 import type { CursoResponse, TrilhaResponse } from "../../services/cursos.service";
+import { carteiraService } from "../../services/carteira.service";
+import { AcessoNegadoModal } from "../../components/AcessoNegadoModal";
 
 type Tab = "cursos" | "trilhas";
 
@@ -11,6 +13,20 @@ export const CursosPages = () => {
     const [cursos, setCursos] = useState<CursoResponse[]>([]);
     const [trilhas, setTrilhas] = useState<TrilhaResponse[]>([]);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCourseClick = async (courseId: string) => {
+        try {
+            const ativa = await carteiraService.possuiAssinaturaAtiva();
+            if (ativa) {
+                navigate(`/cursos/${courseId}`);
+            } else {
+                setShowModal(true);
+            }
+        } catch {
+            setShowModal(true);
+        }
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -42,30 +58,32 @@ export const CursosPages = () => {
 
     return (
         <div className="d-flex" style={{ backgroundColor: "#121214", minHeight: "100vh" }}>
-            <div
-                className="d-flex flex-column p-4"
-                style={{
-                    width: "220px",
-                    backgroundColor: "#1e2124",
-                    borderRight: "1px solid #2a2d33",
-                    flexShrink: 0,
-                }}
-            >
-                <h5 className="text-white mb-4" style={{ fontWeight: 600 }}>Explorar</h5>
-                <nav className="d-flex flex-column gap-2">
-                    <button
-                        style={tabStyle(tab === "cursos")}
-                        onClick={() => setTab("cursos")}
-                    >
-                        Cursos
-                    </button>
-                    <button
-                        style={tabStyle(tab === "trilhas")}
-                        onClick={() => setTab("trilhas")}
-                    >
-                        Trilhas
-                    </button>
-                </nav>
+            <div className="d-flex flex-column align-items-center p-3" style={{ width: "220px", flexShrink: 0 }}>
+                <div
+                    className="d-flex flex-column p-4"
+                    style={{
+                        width: "100%",
+                        backgroundColor: "#1e2124",
+                        border: "1px solid #2a2d33",
+                        borderRadius: 2,
+                    }}
+                >
+                    <h5 className="text-white mb-4" style={{ fontWeight: 600 }}>Explorar</h5>
+                    <nav className="d-flex flex-column gap-2">
+                        <button
+                            style={tabStyle(tab === "cursos")}
+                            onClick={() => setTab("cursos")}
+                        >
+                            Cursos
+                        </button>
+                        <button
+                            style={tabStyle(tab === "trilhas")}
+                            onClick={() => setTab("trilhas")}
+                        >
+                            Trilhas
+                        </button>
+                    </nav>
+                </div>
             </div>
             <div className="flex-grow-1 p-4" style={{ overflow: "auto" }}>
                 <div className="container">
@@ -89,7 +107,7 @@ export const CursosPages = () => {
                                                     borderRadius: "12px",
                                                     cursor: "pointer",
                                                 }}
-                                                onClick={() => navigate(`/cursos/${curso.idCurso}`)}
+                                                onClick={() => handleCourseClick(curso.idCurso)}
                                             >
                                                 {curso.imagemKey ? (
                                                     <img
@@ -166,7 +184,7 @@ export const CursosPages = () => {
                                                 }}
                                                 onClick={() => {
                                                     if (trilha.cursos && trilha.cursos.length > 0) {
-                                                        navigate(`/cursos/${trilha.cursos[0].idCurso}`);
+                                                        handleCourseClick(trilha.cursos[0].idCurso);
                                                     }
                                                 }}
                                             >
@@ -211,6 +229,7 @@ export const CursosPages = () => {
                     )}
                 </div>
             </div>
+            <AcessoNegadoModal show={showModal} onClose={() => setShowModal(false)} />
         </div>
     );
 };

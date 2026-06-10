@@ -87,7 +87,7 @@ export const HomePages = () => {
         </div>
         <div className="d-flex flex-column align-items-center text-center" style={{ position: "relative", zIndex: 1, padding: "20px", color: "#fff" }}>
           <h3>Cursos</h3>
-          <p style={{ color: "#b1adadff" }}>Os cursos da Origamid são voltados para o desenvolvimento web e divididos<br /> em duas categorias: Front End e UX/UI Design. Abaixo estão os principais<br /> cursos, seguidos por uma lista com os 24 cursos disponíveis.</p>
+          <p style={{ color: "#b1adadff" }}>Os cursos da Studify são voltados para o desenvolvimento web e divididos<br /> em duas categorias: Front End e UX/UI Design. Abaixo estão os principais<br /> cursos, seguidos por uma lista com os 24 cursos disponíveis.</p>
         </div>
 
         <div className="d-flex justify-content-center align-items-start" style={{ padding: "40px", gap: "60px", color: "#ffffff", backgroundColor: "#121214" }}>

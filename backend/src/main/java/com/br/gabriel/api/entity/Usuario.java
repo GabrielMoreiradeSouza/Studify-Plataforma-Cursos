@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,9 @@ public class Usuario {
     @Column(name = "role", nullable = false)
     private UsuarioRole role = UsuarioRole.USER;
 
+    @Column(name = "saldo", nullable = false, precision = 10, scale = 2)
+    private BigDecimal saldo = BigDecimal.valueOf(500);
+
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dataCadastro;
 
@@ -58,6 +62,9 @@ public class Usuario {
     public void prePersist() {
         if (this.dataCadastro == null) {
             this.dataCadastro = LocalDateTime.now();
+        }
+        if (this.saldo == null) {
+            this.saldo = BigDecimal.valueOf(500);
         }
     }
 }
