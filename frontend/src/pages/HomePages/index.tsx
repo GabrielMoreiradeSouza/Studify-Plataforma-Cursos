@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export const HomePages = () => {
+    const navigate = useNavigate();
   return (
     <div style={{ backgroundColor: "#121214", minHeight: "100vh" }}>
       <div
@@ -40,7 +43,7 @@ export const HomePages = () => {
           />
           <p style={{ color: "#b1adadff" }}>Aprenda do zero Web Design e comece a sua carreira <br /> de <span style={{ color: "#295bf1ff" }}> UX / UI Designer </span> e Desenvolvedor(a) <span style={{ color: "#fe7d13ff" }}>Front End.</span><br /> Mais de 1600 aulas divididas em 25 cursos.</p>
 
-          <button className="btn btn-primary">Inscreva-se Agora ►</button>
+          <button className="btn btn-primary" onClick={() => navigate("/inscrever")}>Inscreva-se Agora ►</button>
 
           <div className="card text-bg-dark" style={{ marginTop: "40px", minWidth: "600px", backgroundColor: "#22252a", border: "none" }}>
             <div className="card-body p-4">

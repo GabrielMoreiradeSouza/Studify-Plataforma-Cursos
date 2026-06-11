@@ -5,8 +5,9 @@ import { authService } from '../services/auth.service';
 interface AuthContextType {
     isAuthenticated: boolean;
     nomeCompleto: string | null;
+    email: string | null;
     role: string | null;
-    login: (token: string, nomeCompleto?: string, role?: string) => void;
+    login: (token: string, nomeCompleto?: string, email?: string, role?: string) => void;
     logout: () => void;
 }
 
@@ -15,13 +16,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
     const [nomeCompleto, setNomeCompleto] = useState<string | null>(localStorage.getItem('nomeCompleto'));
+    const [email, setEmail] = useState<string | null>(localStorage.getItem('email'));
     const [role, setRole] = useState<string | null>(localStorage.getItem('role'));
 
-    const login = (token: string, nomeCompleto?: string, role?: string) => {
+    const login = (token: string, nomeCompleto?: string, email?: string, role?: string) => {
         localStorage.setItem('token', token);
         if (nomeCompleto) {
             localStorage.setItem('nomeCompleto', nomeCompleto);
             setNomeCompleto(nomeCompleto);
+        }
+        if (email) {
+            localStorage.setItem('email', email);
+            setEmail(email);
         }
         if (role) {
             localStorage.setItem('role', role);
@@ -33,14 +39,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const logout = () => {
         authService.logout();
         localStorage.removeItem('nomeCompleto');
+        localStorage.removeItem('email');
         localStorage.removeItem('role');
         setNomeCompleto(null);
+        setEmail(null);
         setRole(null);
         setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, nomeCompleto, role, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, nomeCompleto, email, role, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

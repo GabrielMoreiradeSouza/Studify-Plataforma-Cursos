@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../services/auth.service";
+import { useAuth } from "../../components/AuthContext";
 
 export default function RegisterPages() {
     const [nome_completo, setNome_completo] = useState("");
@@ -8,13 +9,15 @@ export default function RegisterPages() {
     const [senha_hash, setSenha_hash] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
         try {
-            await authService.register({ nomeCompleto: nome_completo, email, senhaHash: senha_hash });
-            navigate("/login");
+            const response = await authService.register({ nomeCompleto: nome_completo, email, senhaHash: senha_hash });
+            login(response.token, response.nomeCompleto, response.email, response.role);
+            navigate("/home");
         } catch (err: any) {
             setError(err.message || "Erro ao registrar usuário");
         }

@@ -1,0 +1,114 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260611001-create-table-trilha-progresso
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: trilha_progresso
+            columns:
+              - column:
+                  name: id_trilha_progresso
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_usuario
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_trilha
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_curso
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: completado
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_conclusao
+                  type: date
+        - addUniqueConstraint:
+            constraintName: uq_trilha_progresso_usuario_trilha_curso
+            tableName: trilha_progresso
+            columnNames: id_usuario, id_trilha, id_curso
+        - addForeignKeyConstraint:
+            constraintName: fk_trilha_progresso_usuario
+            baseTableName: trilha_progresso
+            baseColumnNames: id_usuario
+            referencedTableName: usuarios
+            referencedColumnNames: id_usuario
+        - addForeignKeyConstraint:
+            constraintName: fk_trilha_progresso_trilha
+            baseTableName: trilha_progresso
+            baseColumnNames: id_trilha
+            referencedTableName: trilhas
+            referencedColumnNames: id_trilha
+        - addForeignKeyConstraint:
+            constraintName: fk_trilha_progresso_curso
+            baseTableName: trilha_progresso
+            baseColumnNames: id_curso
+            referencedTableName: cursos
+            referencedColumnNames: id_curso
+
+  - changeSet:
+      id: 20260611002-create-table-certificados
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: certificados
+            columns:
+              - column:
+                  name: id_certificado
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_usuario
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_curso
+                  type: uuid
+              - column:
+                  name: id_trilha
+                  type: uuid
+              - column:
+                  name: codigo_verificacao
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: data_emissao
+                  type: date
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_certificados_usuario
+            baseTableName: certificados
+            baseColumnNames: id_usuario
+            referencedTableName: usuarios
+            referencedColumnNames: id_usuario
+        - addForeignKeyConstraint:
+            constraintName: fk_certificados_curso
+            baseTableName: certificados
+            baseColumnNames: id_curso
+            referencedTableName: cursos
+            referencedColumnNames: id_curso
+        - addForeignKeyConstraint:
+            constraintName: fk_certificados_trilha
+            baseTableName: certificados
+            baseColumnNames: id_trilha
+            referencedTableName: trilhas
+            referencedColumnNames: id_trilha

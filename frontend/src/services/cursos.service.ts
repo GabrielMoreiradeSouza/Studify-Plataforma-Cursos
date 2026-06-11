@@ -102,8 +102,12 @@ class CursosService {
         return this.request<ProgressoResponse[]>(`/courses/${courseId}/progresso`);
     }
 
-    async completarAula(courseId: string, lessonId: string): Promise<ProgressoResponse> {
-        return this.request<ProgressoResponse>(`/courses/${courseId}/lessons/${lessonId}/completar`, {
+    async completarAula(courseId: string, lessonId: string, trilhaId?: string): Promise<ProgressoResponse> {
+        let endpoint = `/courses/${courseId}/lessons/${lessonId}/completar`;
+        if (trilhaId) {
+            endpoint += `?trilhaId=${trilhaId}`;
+        }
+        return this.request<ProgressoResponse>(endpoint, {
             method: 'POST',
         });
     }

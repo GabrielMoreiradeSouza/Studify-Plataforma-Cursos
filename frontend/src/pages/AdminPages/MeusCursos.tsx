@@ -123,12 +123,12 @@ export const MeusCursos = () => {
     return (
         <div>
             <h4 className="text-white mb-1" style={{ fontWeight: 600 }}>Meus Cursos</h4>
-            <p className="text-muted mb-4" style={{ color: "#9a9a9a !important" }}>Gerencie seus cursos e aulas</p>
+            <p className="mb-4" style={{ color: "#9a9a9a" }}>Gerencie seus cursos e aulas</p>
 
             {error && <div className="alert alert-danger">{error}</div>}
 
             {courses.length === 0 ? (
-                <p className="text-muted">Nenhum curso criado ainda.</p>
+                <p style={{ color: "#9a9a9a" }}>Nenhum curso criado ainda.</p>
             ) : (
                 <div className="d-flex flex-column gap-3">
                     {courses.map((course) => (
@@ -264,7 +264,7 @@ export const MeusCursos = () => {
                                         <div className="mt-4">
                                             <h6 className="text-white">Aulas</h6>
                                             {!lessons[course.idCurso] || lessons[course.idCurso].length === 0 ? (
-                                                <p className="text-muted small">Nenhuma aula cadastrada.</p>
+                                                <p className="small" style={{ color: "#9a9a9a" }}>Nenhuma aula cadastrada.</p>
                                             ) : (
                                                 <div className="d-flex flex-column gap-2">
                                                     {lessons[course.idCurso].map((lesson) => (

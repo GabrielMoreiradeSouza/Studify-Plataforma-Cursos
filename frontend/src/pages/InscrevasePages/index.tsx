@@ -45,7 +45,7 @@ export const InscrevasePages = () => {
                                 </ul>
                             </div>
                             <div className="p-4 text-center" style={{ backgroundColor: "#0d0d0d" }}>
-                                <div className="fw-bold mb-3" style={{ fontSize: "2rem" }}>R$ 120,00</div>
+                                <div className="fw-bold mb-3" style={{ fontSize: "2rem" }}>R$ 120</div>
                                 <button
                                     className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
                                     onClick={() => navigate("/checkout/mensal")}

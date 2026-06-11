@@ -11,6 +11,8 @@ import RegisterPages from "../pages/RegisterPages"
 import { ProtectedRoute } from "../components/AuthContext"
 import { InscrevasePages } from "../pages/InscrevasePages"
 import { CheckoutPages } from "../pages/CheckoutPages"
+import { SobrePages } from "../pages/SobrePages"
+import { PerfilPages } from "../pages/PerfilPages"
 
 
 export const AppRouter = () => {
@@ -25,6 +27,8 @@ export const AppRouter = () => {
               <Route path="/home" element={<HomePages />} />
               <Route path="/cursos" element={<CursosPages />} />
               <Route path="/inscrever" element={<InscrevasePages />} />
+              <Route path="/sobre" element={<SobrePages />} />
+              <Route path="/perfil" element={<PerfilPages />} />
               <Route path="/checkout/:planoId" element={<CheckoutPages />} />
               <Route path="/cursos/:courseId" element={<Player />} />
               <Route path="/admin" element={<AdminPages />}>

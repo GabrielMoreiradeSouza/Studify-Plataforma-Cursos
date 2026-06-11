@@ -55,43 +55,25 @@ class CarteiraService {
     }
 
     async getSaldo(): Promise<CarteiraResponse> {
-        try {
-            const result = await this.request<CarteiraResponse>('/carteira/saldo');
-            localStorage.setItem(SALDO_KEY, String(result.saldo));
-            return result;
-        } catch {
-            const local = localStorage.getItem(SALDO_KEY);
-            return { idUsuario: "", saldo: local ? Number(local) : 500 };
-        }
+        const result = await this.request<CarteiraResponse>('/carteira/saldo');
+        localStorage.setItem(SALDO_KEY, String(result.saldo));
+        return result;
     }
 
-    async comprarPlano(planoId: string, preco: number): Promise<CarteiraResponse> {
-        try {
-            const result = await this.request<CarteiraResponse>('/carteira/comprar-plano', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ planoId }),
-            });
-            localStorage.setItem(SALDO_KEY, String(result.saldo));
-            localStorage.setItem(ASSINATURA_KEY, 'true');
-            return result;
-        } catch {
-            const local = localStorage.getItem(SALDO_KEY);
-            const saldoAtual = local ? Number(local) : 500;
-            const novoSaldo = saldoAtual - preco;
-            localStorage.setItem(SALDO_KEY, String(novoSaldo));
-            localStorage.setItem(ASSINATURA_KEY, 'true');
-            return { idUsuario: "", saldo: novoSaldo };
-        }
+    async comprarPlano(planoId: string): Promise<CarteiraResponse> {
+        const result = await this.request<CarteiraResponse>('/carteira/comprar-plano', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ planoId }),
+        });
+        localStorage.setItem(SALDO_KEY, String(result.saldo));
+        localStorage.setItem(ASSINATURA_KEY, 'true');
+        return result;
     }
 
     async possuiAssinaturaAtiva(): Promise<boolean> {
-        try {
-            const result = await this.request<{ ativa: boolean }>('/carteira/assinatura-ativa');
-            return result.ativa;
-        } catch {
-            return localStorage.getItem(ASSINATURA_KEY) === 'true';
-        }
+        const result = await this.request<{ ativa: boolean }>('/carteira/assinatura-ativa');
+        return result.ativa;
     }
 }
 

@@ -65,11 +65,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
+            constraintName: fk_assinaturas_usuario
             baseTableName: assinaturas
             baseColumnNames: id_usuario
             referencedTableName: usuarios
             referencedColumnNames: id_usuario
         - addForeignKeyConstraint:
+            constraintName: fk_assinaturas_plano
             baseTableName: assinaturas
             baseColumnNames: id_plano
             referencedTableName: planos
@@ -114,6 +116,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
+            constraintName: fk_pagamentos_assinatura
             baseTableName: pagamentos
             baseColumnNames: id_assinatura
             referencedTableName: assinaturas

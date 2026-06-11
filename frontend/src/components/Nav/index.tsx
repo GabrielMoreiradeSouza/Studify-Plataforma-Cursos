@@ -49,7 +49,13 @@ export const Nav = () => {
                                 {primeiroNome}
                             </div>
                             {showDropdown && (
-                                <div className="position-absolute bg-white text-dark shadow rounded mt-1" style={{ right: 0, minWidth: '100px', zIndex: 1000 }}>
+                                <div className="position-absolute bg-white text-dark shadow rounded mt-1" style={{ right: 0, minWidth: '130px', zIndex: 1000 }}>
+                                    <button
+                                        className="btn btn-link text-decoration-none text-dark w-100 text-start px-3 py-2"
+                                        onClick={() => { setShowDropdown(false); navigate("/perfil"); }}
+                                    >
+                                        Ver Perfil
+                                    </button>
                                     <button 
                                         className="btn btn-link text-decoration-none text-dark w-100 text-start px-3 py-2"
                                         onClick={handleLogout}

@@ -26,3 +26,9 @@ databaseChangeLog:
   - include:
       file: migrations/20260610000-add-plano-assinatura-pagamento-tables.yaml
       relativeToChangelogFile: true
+  - include:
+      file: migrations/20260610001-add-gamificacao-tables.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/20260611000-create-trilha-progresso-and-certificados.yaml
+      relativeToChangelogFile: true

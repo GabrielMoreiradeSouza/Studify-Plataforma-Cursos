@@ -15,7 +15,7 @@ export default function LoginPages() {
         setError("");
         try {
             const response = await authService.login({ email, senhaHash: senha_hash });
-            login(response.token, response.nomeCompleto, response.role);
+            login(response.token, response.nomeCompleto, response.email, response.role);
             navigate("/home");
         } catch (err: any) {
             setError(err.message || "Erro ao fazer login");

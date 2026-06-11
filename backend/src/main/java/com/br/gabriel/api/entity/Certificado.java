@@ -27,7 +27,7 @@ public class Certificado {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_curso", nullable = false)
+    @JoinColumn(name = "id_curso")
     private Curso curso;
 
     @ManyToOne

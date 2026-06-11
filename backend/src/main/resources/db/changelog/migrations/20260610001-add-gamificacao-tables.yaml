@@ -1,0 +1,112 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260610004-add-pontos-nivel-to-usuarios
+      author: gabriel
+      changes:
+        - addColumn:
+            tableName: usuarios
+            columns:
+              - column:
+                  name: pontos
+                  type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nivel
+                  type: integer
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 20260610005-create-table-conquistas
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: conquistas
+            columns:
+              - column:
+                  name: id_conquista
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: descricao
+                  type: varchar(255)
+
+  - changeSet:
+      id: 20260610006-create-table-usuario-conquistas
+      author: gabriel
+      changes:
+        - createTable:
+            tableName: usuario_conquistas
+            columns:
+              - column:
+                  name: id_usuario_conquista
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_usuario
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_conquista
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_conquista
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_usuario_conquistas_usuario
+            baseTableName: usuario_conquistas
+            baseColumnNames: id_usuario
+            referencedTableName: usuarios
+            referencedColumnNames: id_usuario
+        - addForeignKeyConstraint:
+            constraintName: fk_usuario_conquistas_conquista
+            baseTableName: usuario_conquistas
+            baseColumnNames: id_conquista
+            referencedTableName: conquistas
+            referencedColumnNames: id_conquista
+
+  - changeSet:
+      id: 20260610007-insert-conquistas
+      author: gabriel
+      changes:
+        - insert:
+            tableName: conquistas
+            columns:
+              - column:
+                  name: id_conquista
+                  value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+              - column:
+                  name: nome
+                  value: "Primeiro Curso"
+              - column:
+                  name: descricao
+                  value: "Completou seu primeiro curso"
+        - insert:
+            tableName: conquistas
+            columns:
+              - column:
+                  name: id_conquista
+                  value: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+              - column:
+                  name: nome
+                  value: "Primeira Trilha"
+              - column:
+                  name: descricao
+                  value: "Completou sua primeira trilha"

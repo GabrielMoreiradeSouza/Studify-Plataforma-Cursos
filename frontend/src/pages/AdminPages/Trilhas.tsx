@@ -124,7 +124,7 @@ export const Trilhas = () => {
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <div>
                     <h4 className="text-white mb-1" style={{ fontWeight: 600 }}>Trilhas</h4>
-                    <p className="text-muted mb-0" style={{ color: "#9a9a9a" }}>Gerencie trilhas de cursos</p>
+                    <p className="mb-0" style={{ color: "#9a9a9a" }}>Gerencie trilhas de cursos</p>
                 </div>
                 <button
                     className="btn"
@@ -191,7 +191,7 @@ export const Trilhas = () => {
             )}
 
             {trilhas.length === 0 ? (
-                <p className="text-muted">Nenhuma trilha criada ainda.</p>
+                <p style={{ color: "#9a9a9a" }}>Nenhuma trilha criada ainda.</p>
             ) : (
                 <div className="d-flex flex-column gap-3">
                     {trilhas.map((trilha) => (
@@ -222,15 +222,15 @@ export const Trilhas = () => {
                                             />
                                         ) : (
                                             <div
-                                                style={{
-                                                    width: 56, height: 56, borderRadius: 8,
-                                                    backgroundColor: "#2a2d33", display: "flex",
-                                                    alignItems: "center", justifyContent: "center",
-                                                    fontSize: 20, color: "#9a9a9a"
-                                                }}
-                                            >
-                                                🗂️
-                                            </div>
+                                                    style={{
+                                                        width: 56, height: 56, borderRadius: 8,
+                                                        backgroundColor: "#2a2d33", display: "flex",
+                                                        alignItems: "center", justifyContent: "center",
+                                                        fontSize: 11, color: "#9a9a9a", fontWeight: 500
+                                                    }}
+                                                >
+                                                    Trilha
+                                                </div>
                                         )}
                                         <div>
                                             <h6 className="mb-1 text-white">{trilha.titulo}</h6>
@@ -278,7 +278,7 @@ export const Trilhas = () => {
                                         <h6 className="text-white">Cursos na Trilha</h6>
 
                                         {(!trilha.cursos || trilha.cursos.length === 0) ? (
-                                            <p className="text-muted small">Nenhum curso nesta trilha.</p>
+                                            <p className="small" style={{ color: "#9a9a9a" }}>Nenhum curso nesta trilha.</p>
                                         ) : (
                                             <div className="d-flex flex-column gap-2 mb-3">
                                                 {trilha.cursos.map((curso) => (

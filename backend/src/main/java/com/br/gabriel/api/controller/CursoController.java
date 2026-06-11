@@ -106,9 +106,11 @@ public class CursoController {
     @PostMapping("/{courseId}/lessons/{lessonId}/completar")
     @Operation(summary = "Marcar aula como concluída")
     public ResponseEntity<ProgressoResponse> completarAula(
+            @PathVariable UUID courseId,
             @PathVariable UUID lessonId,
+            @RequestParam(required = false) UUID trilhaId,
             @AuthenticationPrincipal AuthenticatedUsers authenticated) {
-        return ResponseEntity.ok(progressoService.marcarCompleta(lessonId, authenticated.usuario()));
+        return ResponseEntity.ok(progressoService.marcarCompleta(lessonId, authenticated.usuario(), trilhaId));
     }
 
     @GetMapping("/{courseId}/progresso")

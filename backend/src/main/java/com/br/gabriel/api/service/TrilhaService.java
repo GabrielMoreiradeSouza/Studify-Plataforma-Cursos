@@ -11,8 +11,10 @@ import com.br.gabriel.api.entity.TrilhaCurso;
 import com.br.gabriel.api.entity.TrilhaCursoId;
 import com.br.gabriel.api.exception.ResourceNotFoundException;
 import com.br.gabriel.api.repository.CategoriaRepository;
+import com.br.gabriel.api.repository.CertificadoRepository;
 import com.br.gabriel.api.repository.CursoRepository;
 import com.br.gabriel.api.repository.TrilhaCursoRepository;
+import com.br.gabriel.api.repository.TrilhaProgressoRepository;
 import com.br.gabriel.api.repository.TrilhaRepository;
 import com.br.gabriel.api.config.S3Properties;
 import org.springframework.core.io.InputStreamResource;
@@ -37,14 +39,18 @@ public class TrilhaService {
 
     private final TrilhaRepository trilhaRepository;
     private final TrilhaCursoRepository trilhaCursoRepository;
+    private final TrilhaProgressoRepository trilhaProgressoRepository;
+    private final CertificadoRepository certificadoRepository;
     private final CategoriaRepository categoriaRepository;
     private final CursoRepository cursoRepository;
     private final S3Client s3Client;
     private final S3Properties s3Properties;
 
-    public TrilhaService(TrilhaRepository trilhaRepository, TrilhaCursoRepository trilhaCursoRepository, CategoriaRepository categoriaRepository, CursoRepository cursoRepository, S3Client s3Client, S3Properties s3Properties) {
+    public TrilhaService(TrilhaRepository trilhaRepository, TrilhaCursoRepository trilhaCursoRepository, TrilhaProgressoRepository trilhaProgressoRepository, CertificadoRepository certificadoRepository, CategoriaRepository categoriaRepository, CursoRepository cursoRepository, S3Client s3Client, S3Properties s3Properties) {
         this.trilhaRepository = trilhaRepository;
         this.trilhaCursoRepository = trilhaCursoRepository;
+        this.trilhaProgressoRepository = trilhaProgressoRepository;
+        this.certificadoRepository = certificadoRepository;
         this.categoriaRepository = categoriaRepository;
         this.cursoRepository = cursoRepository;
         this.s3Client = s3Client;
@@ -94,6 +100,8 @@ public class TrilhaService {
         }
 
         trilhaCursoRepository.deleteByIdIdTrilha(id);
+        trilhaProgressoRepository.deleteByTrilha_IdTrilha(id);
+        certificadoRepository.deleteByTrilha_IdTrilha(id);
         trilhaRepository.delete(trilha);
     }
 
@@ -197,7 +205,7 @@ public class TrilhaService {
                 trilha.getTitulo(),
                 trilha.getDescricao(),
                 trilha.getDataCriacao(),
-                trilha.getTotalCursos(),
+                cursos.size(),
                 trilha.getImagemKey(),
                 trilha.getCategoria().getIdCategoria(),
                 trilha.getCategoria().getNome(),

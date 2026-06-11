@@ -25,22 +25,29 @@ export const CheckoutPages = () => {
     useEffect(() => {
         if (!plano) { navigate("/inscrever"); return; }
         carteiraService.listPlanos().then((planos) => {
-            const found = planos.find((p) => p.nome.toLowerCase() === planoId);
+            const found = planos.find((p) => {
+                const normalized = p.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                return normalized === planoId;
+            });
             if (found) setRealPlanoId(found.idPlano);
-        }).catch(() => {});
+        }).catch(() => setError("Erro ao carregar planos"));
         carteiraService.getSaldo()
             .then(setCarteira)
-            .catch(() => {});
+            .catch(() => setError("Erro ao carregar saldo"));
     }, [planoId, plano, navigate]);
 
     const handleConfirmar = async () => {
         if (!plano) return;
+        if (!realPlanoId) {
+            setError("Plano não encontrado. Tente novamente.");
+            return;
+        }
         setStep("processando");
         setError("");
 
         await new Promise((r) => setTimeout(r, 1500));
         try {
-            const result = await carteiraService.comprarPlano(realPlanoId || planoId!, plano.preco);
+            const result = await carteiraService.comprarPlano(realPlanoId);
             setCarteira(result);
             setStep("confirmado");
         } catch (err: any) {
@@ -90,6 +97,7 @@ export const CheckoutPages = () => {
 
     return (
         <div style={{ backgroundColor: "#121214", minHeight: "100vh" }} className="py-5">
+            <style>{`.form-control::placeholder { color: #9a9a9a !important; }`}</style>
             <div className="container" style={{ maxWidth: 640 }}>
                 <button
                     className="btn btn-sm mb-4"

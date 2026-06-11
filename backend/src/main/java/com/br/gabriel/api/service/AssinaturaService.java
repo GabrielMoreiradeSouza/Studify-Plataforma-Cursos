@@ -34,25 +34,28 @@ public class AssinaturaService {
 
     @Transactional
     public CarteiraResponse comprarPlano(Usuario usuario, UUID planoId, String metodoPagamento) {
+        Usuario managed = usuarioRepository.findById(usuario.getIdUsuario())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario nao encontrado"));
+
         Plano plano = planoRepository.findById(planoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Plano nao encontrado"));
 
-        if (usuario.getSaldo().compareTo(plano.getPreco()) < 0) {
+        if (managed.getSaldo().compareTo(plano.getPreco()) < 0) {
             throw new RuntimeException("Saldo insuficiente para comprar este plano");
         }
 
-        usuario.setSaldo(usuario.getSaldo().subtract(plano.getPreco()));
-        usuarioRepository.save(usuario);
+        managed.setSaldo(managed.getSaldo().subtract(plano.getPreco()));
+        usuarioRepository.save(managed);
 
         LocalDate hoje = LocalDate.now();
         Assinatura assinatura = new Assinatura();
-        assinatura.setUsuario(usuario);
+        assinatura.setUsuario(managed);
         assinatura.setPlano(plano);
         assinatura.setDataInicio(hoje);
         assinatura.setDataFim(hoje.plusMonths(plano.getDuracaoMeses()));
         assinatura = assinaturaRepository.save(assinatura);
 
-        return new CarteiraResponse(usuario.getIdUsuario(), usuario.getSaldo());
+        return new CarteiraResponse(managed.getIdUsuario(), managed.getSaldo());
     }
 
     public boolean possuiAssinaturaAtiva(Usuario usuario) {

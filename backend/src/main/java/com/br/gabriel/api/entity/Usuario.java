@@ -40,6 +40,12 @@ public class Usuario {
     @Column(name = "saldo", nullable = false, precision = 10, scale = 2)
     private BigDecimal saldo = BigDecimal.valueOf(500);
 
+    @Column(name = "pontos", nullable = false)
+    private Integer pontos = 0;
+
+    @Column(name = "nivel", nullable = false)
+    private Integer nivel = 1;
+
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dataCadastro;
 

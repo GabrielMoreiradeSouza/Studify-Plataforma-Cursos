@@ -4,22 +4,29 @@ import { cursosService } from "../../services/cursos.service";
 import type { CursoResponse, TrilhaResponse } from "../../services/cursos.service";
 import { carteiraService } from "../../services/carteira.service";
 import { AcessoNegadoModal } from "../../components/AcessoNegadoModal";
+import { useAuth } from "../../components/AuthContext";
 
 type Tab = "cursos" | "trilhas";
 
 export const CursosPages = () => {
     const navigate = useNavigate();
+    const { role } = useAuth();
     const [tab, setTab] = useState<Tab>("cursos");
     const [cursos, setCursos] = useState<CursoResponse[]>([]);
     const [trilhas, setTrilhas] = useState<TrilhaResponse[]>([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
 
-    const handleCourseClick = async (courseId: string) => {
+    const handleCourseClick = async (courseId: string, trilhaId?: string) => {
+        const target = trilhaId ? `/cursos/${courseId}?trilhaId=${trilhaId}` : `/cursos/${courseId}`;
+        if (role === "ADMIN") {
+            navigate(target);
+            return;
+        }
         try {
             const ativa = await carteiraService.possuiAssinaturaAtiva();
             if (ativa) {
-                navigate(`/cursos/${courseId}`);
+                navigate(target);
             } else {
                 setShowModal(true);
             }
@@ -94,7 +101,7 @@ export const CursosPages = () => {
                             <h3 className="text-white mb-1" style={{ fontWeight: 600 }}>Cursos</h3>
                             <p className="mb-4" style={{ color: "#9a9a9a" }}>Escolha um curso para começar a aprender</p>
                             {cursos.length === 0 ? (
-                                <p className="text-muted">Nenhum curso disponível no momento.</p>
+                                <p style={{ color: "#9a9a9a" }}>Nenhum curso disponível no momento.</p>
                             ) : (
                                 <div className="row g-4">
                                     {cursos.map((curso) => (
@@ -169,7 +176,7 @@ export const CursosPages = () => {
                             <h3 className="text-white mb-1" style={{ fontWeight: 600 }}>Trilhas</h3>
                             <p className="mb-4" style={{ color: "#9a9a9a" }}>Trilhas de cursos para aprendizado guiado</p>
                             {trilhas.length === 0 ? (
-                                <p className="text-muted">Nenhuma trilha disponível no momento.</p>
+                                <p style={{ color: "#9a9a9a" }}>Nenhuma trilha disponível no momento.</p>
                             ) : (
                                 <div className="row g-4">
                                     {trilhas.map((trilha) => (
@@ -184,7 +191,7 @@ export const CursosPages = () => {
                                                 }}
                                                 onClick={() => {
                                                     if (trilha.cursos && trilha.cursos.length > 0) {
-                                                        handleCourseClick(trilha.cursos[0].idCurso);
+                                                        handleCourseClick(trilha.cursos[0].idCurso, trilha.idTrilha);
                                                     }
                                                 }}
                                             >
@@ -208,7 +215,7 @@ export const CursosPages = () => {
                                                             borderRadius: "12px 12px 0 0",
                                                         }}
                                                     >
-                                                        <span style={{ fontSize: "3rem", color: "#4a4d54" }}>🗂️</span>
+                                                        <span style={{ fontSize: "1.5rem", color: "#4a4d54", fontWeight: 300 }}>Trilha</span>
                                                     </div>
                                                 )}
                                                 <div className="card-body d-flex flex-column">
