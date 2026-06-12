@@ -24,7 +24,7 @@ export default function RegisterPages() {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundColor: "#121214", color: "#fff" }}>
             <form onSubmit={handleSubmit} className="w-100 d-flex flex-column align-items-center" style={{ maxWidth: "400px" }}>
 
                 <img
